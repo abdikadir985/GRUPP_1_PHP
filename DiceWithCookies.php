@@ -41,6 +41,17 @@
 		if(isset( $_POST["btnRoll"])){
 			echo("Button Rolled");
 
+			$nbr = $_COOKIE["nbrOfRounds"];
+			$sum = $_COOKIE["sumOfAllRounds"];
+			$sum = $sum + $sixDices->sumDices();
+			$nbr++;
+			setcookie("nbrOfRounds", $nbr, time() + 3600);
+			setcookie("sumOfAllRounds", $sum, time() + 3600);
+			echo($sixDices->svgDices());
+			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
+			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". $sum/6 . "</p>" . PHP_EOL);
+
 			$disabled = false;
 		}
 		//uppgift 2.
@@ -49,11 +60,16 @@
 		!isset($_POST["btnNewGame"]) &&
 		isset($_COOKIE["nbrOfRounds"]) &&
 		isset($_COOKIE["sumOfAllRounds"])) {
-			echo("<p>" ."Sum of dices:". 1 . "</p>" . PHP_EOL);
-			echo("<p>" ."total dices are:". 1 . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". 1 . "</p>" . PHP_EOL);
-
-//
+			$nbr = $_COOKIE["nbrOfRounds"];
+			$sum = $_COOKIE["sumOfAllRounds"];
+			$sum = $sum + $sixDices->sumDices();
+			$nbr++;
+			setcookie("nbrOfRounds", $nbr, time() + 3600);
+			setcookie("sumOfAllRounds", $sum, time() + 3600);
+			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
+			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". $sum/6 . "</p>" . PHP_EOL);
+			
 			$disabled = false;
 		}
 
