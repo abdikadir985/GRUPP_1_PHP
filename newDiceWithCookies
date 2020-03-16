@@ -107,7 +107,6 @@
 		?>
 	</div>
 
-
 	<form action="<?php echo( $_SERVER["PHP_SELF"] ); ?>" method="post">
 		<!--uppgift 5-->
 		<input type="submit" name="btnRoll" class="btn btn-primary" value="Roll six dices" <?php if($disabled) { echo("disabled"); }?>/>
