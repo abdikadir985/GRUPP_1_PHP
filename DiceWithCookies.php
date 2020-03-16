@@ -15,7 +15,7 @@
 		include("include/OneDice.php");
 		include("include/SixDices.php");
 		$dice = new OneDice(6);
-		$dice->setNbr(6);
+		$dice->setNbr(1);
 		$dice->getNbr();
 		$sixDices = new SixDices();
 		$sixDices->rollDices();
@@ -29,18 +29,15 @@
 			//uppbift 1b.
 			setcookie("nbrOfRounds",0, time() + 3600);
 			setcookie("sumOfAllRounds",0, time() + 3600);
-			//uppgift 3
-			echo( $sixDices->svgDices() );
-			
-			$disabled = false;
-		}
-		//uppgift 1c.
-		if(isset( $_POST["btnExit"])){
-			echo("Game Ended");
 
 			$disabled = false;
 		}
-
+		//uppgift 1c,4,5
+		if( isset( $_POST["btnExit"])) {
+			setcookie( "nbrOfRounds", "", time() - 3600);
+			setcookie( "sumOfAllRounds", "", time() - 3600);
+		}
+		//uppgift 1c och 3
 		if(isset( $_POST["btnRoll"])){
 			echo("Button Rolled");
 
@@ -52,18 +49,20 @@
 		!isset($_POST["btnNewGame"]) &&
 		isset($_COOKIE["nbrOfRounds"]) &&
 		isset($_COOKIE["sumOfAllRounds"])) {
-			echo("<p>" ."Sum of dices:". $sixDices->sumDices() . "</p>" . PHP_EOL);
-			echo("<p>" ."total dices are:". $dice->getNbr() . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". (($sixDices->sumDices())/6) . "</p>" . PHP_EOL);
+			echo("<p>" ."Sum of dices:". 1 . "</p>" . PHP_EOL);
+			echo("<p>" ."total dices are:". 1 . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". 1 . "</p>" . PHP_EOL);
 
-
+//
 			$disabled = false;
 		}
 
 		?>
 	</div>
 
+
 	<form action="<?php echo( $_SERVER["PHP_SELF"] ); ?>" method="post">
+		<!--uppgift 5-->
 		<input type="submit" name="btnRoll" class="btn btn-primary" value="Roll six dices" <?php if($disabled) { echo("disabled"); }?>/>
 		<input type="submit" name="btnNewGame" class="btn btn-primary" value="New Game" />
 		<input type="submit" name="btnExit" class="btn btn-primary" value="Exit" <?php if($disabled) { echo("disabled"); }?>/>
@@ -82,4 +81,3 @@
 </body>
 
 </html>
-
