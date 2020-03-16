@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" >
+
+<head>
+	<meta charset="utf-8" />
+	<title>Roll the dice...</title>
+	<link href="style/style.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+	<div>
+		<?php
+		include("include/OneDice.php");
+		include("include/SixDices.php");
+		$dice = new OneDice(6);
+		$dice->setNbr(1);
+		$dice->getNbr();
+		$sixDices = new SixDices();
+		$sixDices->rollDices();
+
+		//Var uppmärksam på att PHP-tolken används på ett flertal ställen i filen!
+		$disabled = true;
+
+		if(isset( $_POST["btnNewGame"])) {
+			//uppgift 1a.
+            echo("New Game!");
+            echo $sixDices->svgDices();
+			//uppbift 1b.
+			setcookie("nbrOfRounds",0, time() + 3600);
+			setcookie("sumOfAllRounds",0, time() + 3600);
+
+			$disabled = false;
+		}
+		//uppgift 1c,4,5
+		if( isset( $_POST["btnExit"])) {
+			setcookie( "nbrOfRounds", "", time() - 3600);
+            setcookie( "sumOfAllRounds", "", time() - 3600);
+            $disabled =true;
+		}
+		//uppgift 1c och 3
+		if(isset( $_POST["btnRoll"])){
+            echo("Button Rolled");
+            echo $sixDices->svgDices();
+            setcookie("nbrOfRounds",$_COOKIE["nbrOfRounds"]+1,time()+3600);
+            setcookie("sumOfAllRounds",$_COOKIE["sumOfAllRounds"]+$sixDices->sumDices(),time()+3600);
+           
+			$disabled = false;
+		}
+		//uppgift 2.
+		/*if(!isset($_POST["btnRoll"]) &&
+		!isset($_POST["btnExit"]) &&
+		!isset($_POST["btnNewGame"]) &&
+		isset($_COOKIE["nbrOfRounds"]) &&
+		isset($_COOKIE["sumOfAllRounds"])) {
+            echo("<p>" ."Sum of dices:". ($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices()). "</p>" . PHP_EOL);
+			echo("<p>" ."total dices are:". $_COOKIE["nbrOfRounds"]. "</p>" . PHP_EOL);
+			if($_COOKIE["nbrOfRounds"]!=0){
+				echo("<p>" ."average value is:".(($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices())/$_COOKIE["nbrOfRounds"]+1) . "</p>" . PHP_EOL);
+			}else
+				echo "<p> average value is :0";
+			$disabled = false;
+//
+			$disabled = false;
+        }*/
+        if((!isset($_POST["btnRoll"]))&&
+		!isset($_POST["btnExit"]) &&
+		!isset($_POST["btnNewGame"])){
+            if(isset($_COOKIE["nbrOfRounds"])&&isset($_COOKIE["sumOfAllRounds"])){
+                echo("<p>" ."Sum of dices:". ($_COOKIE["sumOfAllRounds"]). "</p>" . PHP_EOL);
+                echo("<p>" ."total dices are:". ($_COOKIE["nbrOfRounds"]) ."</p>" . PHP_EOL);
+                if($_COOKIE["nbrOfRounds"]!=0){
+                    echo("<p>" ."average value is:".(($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices())/$_COOKIE["nbrOfRounds"]+1) . "</p>" . PHP_EOL);
+                }else
+                    echo "<p> average value is :0";
+                    $disabled = false;
+            }else{
+                    echo("<p>" ."Sum of dices:". ($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices()). "</p>" . PHP_EOL);
+                    echo("<p>" ."total dices are:". ($_COOKIE["nbrOfRounds"]+1) ."</p>" . PHP_EOL);
+                    if($_COOKIE["nbrOfRounds"]!=0){
+                        echo("<p>" ."average value is:".(($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices())/$_COOKIE["nbrOfRounds"]+1) . "</p>" . PHP_EOL);
+                    }else
+                        echo "<p> average value is :0";
+                    $disabled = false;
+            
+            }
+        /*if(isset($_COOKIE["nbrOfRounds"])&&isset($_COOKIE["sumOfAllRounds"])){
+            if(isset($_POST["btnRoll"])){
+                echo("<p>" ."Sum of dices:". ($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices()). "</p>" . PHP_EOL);
+                echo("<p>" ."total dices are:". ($_COOKIE["nbrOfRounds"]+1) ."</p>" . PHP_EOL);
+                if($_COOKIE["nbrOfRounds"]!=0){
+                    echo("<p>" ."average value is:".(($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices())/$_COOKIE["nbrOfRounds"]+1) . "</p>" . PHP_EOL);
+                }else
+                    echo "<p> average value is :0";
+                $disabled = false;
+            }else if(!isset($_POST["btnRoll"])&&!isset($_POST["btnNewGame"])&&!isset($_POST["btnExit"])){
+                echo("<p>" ."Sum of dices:". ($_COOKIE["sumOfAllRounds"]). "</p>" . PHP_EOL);
+                echo("<p>" ."total dices are:". ($_COOKIE["nbrOfRounds"]) ."</p>" . PHP_EOL);
+                if($_COOKIE["nbrOfRounds"]!=0){
+                    echo("<p>" ."average value is:".(($_COOKIE["sumOfAllRounds"]+$sixDices->sumDices())/$_COOKIE["nbrOfRounds"]+1) . "</p>" . PHP_EOL);
+                }else
+                    echo "<p> average value is :0";
+                $disabled = false;
+            }
+        }*/
+		?>
+	</div>
+
+
+	<form action="<?php echo( $_SERVER["PHP_SELF"] ); ?>" method="post">
+		<!--uppgift 5-->
+		<input type="submit" name="btnRoll" class="btn btn-primary" value="Roll six dices" <?php if($disabled) { echo("disabled"); }?>/>
+		<input type="submit" name="btnNewGame" class="btn btn-primary" value="New Game" />
+		<input type="submit" name="btnExit" class="btn btn-primary" value="Exit" <?php if($disabled) { echo("disabled"); }?>/>
+	</form>
+
+	<?php
+
+	echo( "<pre>" );
+	print_r( $_POST );
+	print_r( $_COOKIE );
+	echo( "</pre>" );
+
+	?>
+
+	<script src="script/animation.js"></script>
+</body>
+
+</html>
