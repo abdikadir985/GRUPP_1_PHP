@@ -38,7 +38,9 @@
 			setcookie( "sumOfAllRounds", "", time() - 3600);
 		}
 		//uppgift 1c och 3
-		if(isset( $_POST["btnRoll"])){
+		if(isset( $_POST["btnRoll"]) &&
+		isset($_COOKIE["nbrOfRounds"]) &&
+		isset($_COOKIE["sumOfAllRounds"])){
 			echo("Button Rolled");
 
 			$nbr = $_COOKIE["nbrOfRounds"];
@@ -50,7 +52,7 @@
 			echo($sixDices->svgDices());
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". $sum/6 . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
 
 			$disabled = false;
 		}
@@ -62,14 +64,10 @@
 		isset($_COOKIE["sumOfAllRounds"])) {
 			$nbr = $_COOKIE["nbrOfRounds"];
 			$sum = $_COOKIE["sumOfAllRounds"];
-			$sum = $sum + $sixDices->sumDices();
-			$nbr++;
-			setcookie("nbrOfRounds", $nbr, time() + 3600);
-			setcookie("sumOfAllRounds", $sum, time() + 3600);
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". $sum/6 . "</p>" . PHP_EOL);
-			
+			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
+
 			$disabled = false;
 		}
 
@@ -85,12 +83,12 @@
 	</form>
 
 	<?php
-
+/*
 	echo( "<pre>" );
 	print_r( $_POST );
 	print_r( $_COOKIE );
 	echo( "</pre>" );
-
+*/
 	?>
 
 	<script src="script/animation.js"></script>
