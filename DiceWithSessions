@@ -114,7 +114,8 @@
 
 		?>
 	</div>
-         <!--uppgift 6-->
+	<!--uppgift 6-->
+	<!--disabled kommentaren har en space för att btn-primary inte ska krocka ihop med disabled kommentaren-->
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Roll six dices</a>
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Exit</a>
