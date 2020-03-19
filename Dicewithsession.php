@@ -1,5 +1,3 @@
-
-<?php session_start();?>
 <!doctype html>
 <html lang="en" >
 
@@ -11,28 +9,19 @@
 	</head>
 
 	<body>
-	
+
 		<div>
 			<?php
 				//Var uppmärksam på att PHP-tolken används på ett flertal ställen i filen!
-				session_regenerate_id(true);
-				$newGame="";
-				function newGame(){
-					$newGame="New Game!";
-					echo $newGame;
-				}
-				
-				/*session_unset();
-				session_destory();*/
 			?>
 		</div>
-		
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php ?>">Roll six dices</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php ?>">Exit</a>
-		
+
+		<a href="<?php ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Roll six dices</a>
+		<a href="<?php ?>?linkNewGame=true" class="btn btn-primary">New game</a>
+		<a href="<?php ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Exit</a>
+
 		<script src="script/animation.js"></script>
-		
+
 	</body>
 
 </html>
