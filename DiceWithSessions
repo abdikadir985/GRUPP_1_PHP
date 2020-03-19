@@ -67,6 +67,8 @@
 			$sum = $sum + $sixDices->sumDices();
 			$nbr++;
 			echo($sixDices->svgDices());
+			$_SESSION["nbrOfRounds"] = $nbr;
+			$_SESSION["sumOfAllRounds"] = $sum;
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
 			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
