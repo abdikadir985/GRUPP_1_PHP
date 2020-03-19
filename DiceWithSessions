@@ -13,6 +13,8 @@
 	<div>
 		<?php
 		//Var uppmärksam på att PHP-tolken används på ett flertal ställen i filen!
+
+		//del utav uppgift 2 och 3
 		function deleteSession() {
 
 			session_unset();
@@ -55,6 +57,20 @@
 			$_SESSION["sumOfAllRounds"] = 0;
 			$disabled = false;
 		}
+		//uppgift 1c, 2
+		if(isset($_GET["linkExit"]) &&
+		isset($_SESSION["nbrOfRounds"]) &&
+		isset($_SESSION["sumOfAllRounds"])) {
+			deleteSession();
+		}
+		//uppgift 3
+		if(!isset($_GET["linkNewGame"]) &&
+		!isset( $_GET["linkRoll"]) &&
+		!isset($_GET["linkExit"]) &&
+		!isset($_SESSION["nbrOfRounds"]) &&
+		!isset($_SESSION["sumOfAllRounds"])) {
+			session_destroy();
+		}
 
 		// uppgift 1c,5
 		if(isset( $_GET["linkRoll"]) &&
@@ -85,33 +101,26 @@
 			$sum = $_SESSION["sumOfAllRounds"];
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
-		}
-		//uppgift 1c, 2
-		if(isset($_GET["linkExit"]) &&
-		isset($_SESSION["nbrOfRounds"]) &&
-		isset($_SESSION["sumOfAllRounds"])) {
-			deleteSession();
-		}
-		//uppgift 3
-		if(!isset($_GET["linkNewGame"]) &&
-		!isset( $_GET["linkRoll"]) &&
-		!isset($_GET["linkExit"]) &&
-		!isset($_SESSION["nbrOfRounds"]) &&
-		!isset($_SESSION["sumOfAllRounds"])) {
-			deleteSession();
+			if($nbr == 0){
+				echo("<p>" ."average value is:". 0 . "</p>" . PHP_EOL);
+			}
+			else{
+				echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
+			}
+
+			$disabled = false;
 		}
 
 
 		?>
 	</div>
-
+         <!--uppgift 6-->
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Roll six dices</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Exit</a>
+	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
+	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Exit</a>
 
 	<?php
-	
+
 	echo( "<pre>" );
 	print_r( $_POST );
 	print_r( $_SESSION );
