@@ -37,6 +37,13 @@
 		session_start();
 		session_regenerate_id( true );
 
+		include("include/OneDice.php");
+		include("include/SixDices.php");
+		$dice = new OneDice(6);
+		$dice->setNbr(1);
+		$dice->getNbr();
+		$sixDices = new SixDices();
+		$sixDices->rollDices();
 
 		$disabled = true;
 
@@ -49,11 +56,34 @@
 			$disabled = false;
 		}
 
-		// uppgift 1c
-		if(isset( $_GET["linkRoll"])) {
-			echo("Button roll");
+		// uppgift 1c,5
+		if(isset( $_GET["linkRoll"]) &&
+		isset($_SESSION["nbrOfRounds"]) &&
+		isset($_SESSION["sumOfAllRounds"])) {
+			echo("Button Rolled");
+
+			$nbr = $_SESSION["nbrOfRounds"];
+			$sum = $_SESSION["sumOfAllRounds"];
+			$sum = $sum + $sixDices->sumDices();
+			$nbr++;
+			echo($sixDices->svgDices());
+			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
+			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
 
 			$disabled = false;
+		}
+		//uppgift 4
+		if(!isset($_GET["linkNewGame"]) &&
+		!isset( $_GET["linkRoll"]) &&
+		!isset($_GET["linkExit"]) &&
+		isset($_SESSION["nbrOfRounds"]) &&
+		isset($_SESSION["sumOfAllRounds"])) {
+			$nbr = $_SESSION["nbrOfRounds"];
+			$sum = $_SESSION["sumOfAllRounds"];
+			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
+			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
+			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
 		}
 		//uppgift 1c, 2
 		if(isset($_GET["linkExit"]) &&
@@ -70,15 +100,25 @@
 			deleteSession();
 		}
 
-			?>
-		</div>
 
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Roll six dices</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
-		<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Exit</a>
+		?>
+	</div>
 
-		<script src="script/animation.js"></script>
+	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Roll six dices</a>
+	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
+	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo("disabled"); } ?>">Exit</a>
 
-	</body>
+	<?php
+	
+	echo( "<pre>" );
+	print_r( $_POST );
+	print_r( $_SESSION );
+	echo( "</pre>" );
 
-	</html>
+	?>
+
+	<script src="script/animation.js"></script>
+
+</body>
+
+</html>
