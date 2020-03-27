@@ -1,5 +1,5 @@
 <?php
-// lab 2 gruppmeddlemar [Abdikadir Omar, Hoseop Joung & Blend Zebari]
+// lab 2 Ramverk/ gruppmeddlemar: [Abdikadir Omar, Hoseop Joung & Blend Zebari]
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
