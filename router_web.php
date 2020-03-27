@@ -1,8 +1,5 @@
 <?php
-
-// lab 2 Ramverk/ Gruppmeddlemar: [Abdikadir Omar, Hoseop Joung, & Blend Zebari]
-
-
+// lab2 / Ramverk/ Gruppmeddlemar: [Abdikadir Omar, Hoseop Joung, & Blend zebari]
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -18,8 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('movies','MovieController@index');
+$router->get('movies','MoviesController@index');
 
 
-$router->get('movies/{id}','MovieController@movieid')
-
+$router->get('movies/{id}','MoviesController@movieid');
