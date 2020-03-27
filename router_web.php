@@ -18,8 +18,8 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('Movie','MoviesController@index');
+$router->get('movies','MovieController@index');
 
 
-$router->get('Movie/{id}','MoviesController@movieid');
+$router->get('movies/{id}','MovieController@movieid')
 
