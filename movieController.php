@@ -1,19 +1,27 @@
 <?php
 // lab2 / Ramverk/ Gruppmeddlemar: [Abdikadir Omar, Hoseop Joung, & Blend zebari]
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Movie;
 use Illuminate\Validation\Rule;
 
-class movieController extends Controller {
-  
-    public function __index()  {
+class moviesController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     *
+     */
+    public function index()  {
 
-      $Posts = movie::all();
+      $Posts = Movie::all();
 
-      return $Posts['']-title;
-      
+      return $Posts;
+
     }
+
+
+
+
 }
