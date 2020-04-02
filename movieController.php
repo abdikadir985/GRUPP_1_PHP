@@ -8,48 +8,36 @@ use Illuminate\Validation\Rule;
 
 class moviesController extends Controller
 {
+  public function test() {
+    return ['JSON'=>true];
+  }
 
   public function index()  {
 
-    $Posts = Movie::all();
+    $posts = Movie::orderBy('title','asc')->get();
 
-    return $Posts;
+    return $posts;
 
   }
-  public function getByregnr ($regnr){
-
-    $Posts = bil::where('regnr','=',$regnr)->firstorFail();
-
+  
+  public function read($id) {
+    $Posts = Movie::findOrFail($id);
+    
     return $Posts;
+
   }
 
   public function create(Request $request) {
+    $this->validate($request,[
 
-    $data=  $this->validate($request, [
-      'title' => 'string|required',
-      'year' => 'integer',
-      'genre' => 'string',
-      'rating' => 'integer|min:1|max:10',
+      'title'=>'required|alpha_num',
+      'year'=>'integer',
+      'genre'=>'string',
+      'rating'=>'integer|min:1|max:10'
     ]);
+    Movie::create($request->all());
 
-    $data = $request->all();
-
-    $Posts = new Movie();
-
-    $Posts->fill($data);
-
-    $Posts->save();
-
-    return ['success' => true,'id' => $Posts->id,];
-  }
-
-  public function read($id) {
-
-
-    $Posts = Movie::findOrFail($id);
-
-    return $Posts;
-
+    return['success'=>true];
   }
 
   public function update(Request $request,$id){
@@ -58,14 +46,14 @@ class moviesController extends Controller
       'title' => 'string|filled',
       'year' => 'integer',
       'genre' => 'string',
-      'rating' => 'integer|min:1|max:10',
+      'rating' => 'integer|min:1|max:10'
     ]);
 
     $Posts = Movie::findOrFail($id);
     $Posts-> fill($data);
     $Posts ->save();
 
-    return ['success'=> true,];
+    return ['success'=> true];
 
   }
 
@@ -74,7 +62,7 @@ class moviesController extends Controller
     $Posts= Movie::findorFail($id);
     $Posts-> delete();
 
-    return ['success' => true,];
+    return ['success' => true];
 
   }
 
