@@ -15,6 +15,7 @@
 		//Var uppmärksam på att PHP-tolken används på ett flertal ställen i filen!
 
 		//del utav uppgift 2 och 3
+		//detta är själva funktionen till att möjliggöra borttagningen av sessionerna
 		function deleteSession() {
 
 			session_unset();
@@ -36,9 +37,14 @@
 			session_destroy();
 
 		}
+		//här startar vi sessionen och regenererar ett id till sessionen...
 		session_start();
 		session_regenerate_id( true );
 
+		//denna är konstruktionen för att kunna inkludera onedice och sixdices...
+		//där vi därifrån skapar en ny onedice med siffran 6 inom för att få
+		//systemet att förstå att det finns 6 tärningar att beräkna... (via setnbr och getnbr)
+		//vi hade också skapat en ny sixdices. ($sixDices->rollDices(); handlar om animationen)
 		include("include/OneDice.php");
 		include("include/SixDices.php");
 		$dice = new OneDice(6);
@@ -46,24 +52,29 @@
 		$dice->getNbr();
 		$sixDices = new SixDices();
 		$sixDices->rollDices();
-
+		//den är avstängd (disabled)
 		$disabled = true;
 
+		//denna knapp (vid tryck)
 		if(isset($_GET["linkNewGame"])){
-			// uppgift 1a
+			// uppgift 1a - skriv ut new game
 			echo("New Game!");
-			// uppgift 1b
+			// uppgift 1b - är har vi skapade sessioner (med värdet 0)
 			$_SESSION["nbrOfRounds"] = 0;
 			$_SESSION["sumOfAllRounds"] = 0;
+			//den är aktiv
 			$disabled = false;
 		}
 		//uppgift 1c, 2
+		//vid tryck på denna knapp och där dessa två sessioner finns skapade
 		if(isset($_GET["linkExit"]) &&
 		isset($_SESSION["nbrOfRounds"]) &&
 		isset($_SESSION["sumOfAllRounds"])) {
+			//så rensas denna session och förstörs (borttagning)
 			deleteSession();
 		}
 		//uppgift 3
+		//om inga knappar trycks och inga sessioner är skapade förstörs sessionen.
 		if(!isset($_GET["linkNewGame"]) &&
 		!isset( $_GET["linkRoll"]) &&
 		!isset($_GET["linkExit"]) &&
@@ -73,60 +84,70 @@
 		}
 
 		// uppgift 1c,5
+		//trycks denna knapp och sessionerna finns skapade:
 		if(isset( $_GET["linkRoll"]) &&
 		isset($_SESSION["nbrOfRounds"]) &&
 		isset($_SESSION["sumOfAllRounds"])) {
+			//skriv ut button rolled
 			echo("Button Rolled");
-
+			//här sätter vi variabler till dessa sessioner
 			$nbr = $_SESSION["nbrOfRounds"];
 			$sum = $_SESSION["sumOfAllRounds"];
+			//summeringen som görs och ökandet av antalet.
 			$sum = $sum + $sixDices->sumDices();
 			$nbr++;
+			//visa animationen
 			echo($sixDices->svgDices());
+			//denna finns för att kunna uppdatera sessionsvärdena som de tidigare fått.
 			$_SESSION["nbrOfRounds"] = $nbr;
 			$_SESSION["sumOfAllRounds"] = $sum;
+			//och här skrivs det då ut på sidan...
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
 			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
-
+			//den är aktiv...
 			$disabled = false;
 		}
 		//uppgift 4
+		//om ingen knapp är tryckt och sessionerna finns skapade:
 		if(!isset($_GET["linkNewGame"]) &&
 		!isset( $_GET["linkRoll"]) &&
 		!isset($_GET["linkExit"]) &&
 		isset($_SESSION["nbrOfRounds"]) &&
 		isset($_SESSION["sumOfAllRounds"])) {
+			//sessionerna har placerats inom dessa variabler (för att lättare kunna förstå)
 			$nbr = $_SESSION["nbrOfRounds"];
 			$sum = $_SESSION["sumOfAllRounds"];
+			//här skrivs det ut på sidan...
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
+			//en satts som får dig att undvika en error om $nbr inte har ett värde
 			if($nbr == 0){
 				echo("<p>" ."average value is:". 0 . "</p>" . PHP_EOL);
 			}
 			else{
 				echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
 			}
-
+			//den är aktiv
 			$disabled = false;
 		}
 
 
 		?>
 	</div>
-	<!--uppgift 6-->
+	<!--uppgift 6 - if-satser som säger: är dessa knappar avstängda är den oanvändbar (hänger ihop med php:n för de som finns ovan) -->
 	<!--disabled kommentaren har en space för att btn-primary inte ska krocka ihop med disabled kommentaren-->
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkRoll=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Roll six dices</a>
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkNewGame=true" class="btn btn-primary">New game</a>
 	<a href="<?php echo $_SERVER["PHP_SELF"]; ?>?linkExit=true" class="btn btn-primary<?php if( $disabled ) { echo(" disabled"); } ?>">Exit</a>
 
 	<?php
-
+	/*
 	echo( "<pre>" );
 	print_r( $_POST );
 	print_r( $_SESSION );
 	echo( "</pre>" );
-
+	*/
 	?>
 
 	<script src="script/animation.js"></script>
