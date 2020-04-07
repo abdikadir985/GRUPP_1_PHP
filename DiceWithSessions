@@ -48,8 +48,6 @@
 		include("include/OneDice.php");
 		include("include/SixDices.php");
 		$dice = new OneDice(6);
-		$dice->setNbr(1);
-		$dice->getNbr();
 		$sixDices = new SixDices();
 		$sixDices->rollDices();
 		//den är avstängd (disabled)
