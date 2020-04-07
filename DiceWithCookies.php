@@ -19,14 +19,12 @@
 		include("include/OneDice.php");
 		include("include/SixDices.php");
 		$dice = new OneDice(6);
-		$dice->setNbr(1);
-		$dice->getNbr();
 		$sixDices = new SixDices();
 		$sixDices->rollDices();
 
 		//här är den avstängd
 		$disabled = true;
-	        //vid tryck av btnNewGame:
+	  //vid tryck av btnNewGame:
 		if(isset( $_POST["btnNewGame"])) {
 			//uppgift 1a. - skriv ut detta när du trycker på btnNewGame
 			echo("New Game!");
@@ -79,7 +77,12 @@
 			//så skriver vi ut det antal, summa, medelvärde som sattes tidigare...
 			echo("<p>" ."total dices are:". $nbr . "</p>" . PHP_EOL);
 			echo("<p>" ."Sum of dices:". $sum . "</p>" . PHP_EOL);
-			echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
+			if($nbr == 0){
+				echo("<p>" ."average value is:". 0 . "</p>" . PHP_EOL);
+			}
+			else{
+				echo("<p>" ."average value is:". $sum/$nbr . "</p>" . PHP_EOL);
+			}
 			//aktiv...
 			$disabled = false;
 		}
